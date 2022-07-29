@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
-        'name' => 'intervolga/rewievs',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'name' => 'intervolga/reviews',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '40aa169d2d5babc3f3bb7feaf083e917e31f10bb',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -19,10 +19,10 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'intervolga/rewievs' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+        'intervolga/reviews' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '40aa169d2d5babc3f3bb7feaf083e917e31f10bb',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

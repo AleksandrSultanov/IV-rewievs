@@ -1,9 +1,9 @@
 {
-    "name": "intervolga/rewievs",
+    "name": "intervolga/reviews",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Intervolga\\Rewievs\\": "scr/"
+            "Intervolga\\Reviews\\": "scr/"
         }
     },
     "require": {
