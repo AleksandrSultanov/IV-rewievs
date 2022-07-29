@@ -42,14 +42,16 @@ class Reviews
                 $reviewInfo["content"]
             );
         }
+
         return $reviews;
     }
 
-    function addReview (Review $review): void{
-        $result = $this->connection->query("INSERT INTO reviews (name_creator, date_create, content) VALUES ('$review->name_creator','$review->date_create','$review->content')");
-        $arr = $this->connection->query("SELECT last_insert_rowid();");
-        $row = $arr->fetchArray(SQLITE3_ASSOC);
-        var_dump($row);
+    function addReview (Review $review): int{
+        $result = $this->connection->query("INSERT INTO reviews VALUES ('$review->name_creator','$review->date_create','$review->content')");
+        $id = (new \SQLite3)->lastInsertRowID();
+        if ($result)
+            return $id;
+        else return false;
     }
 
     function deleteReview(int $id): Review|bool {
