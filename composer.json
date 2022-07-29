@@ -1,0 +1,13 @@
+{
+    "name": "intervolga/rewievs",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Intervolga\\Rewievs\\": "scr/"
+        }
+    },
+    "require": {
+        "slim/slim": "4.10.0",
+        "slim/psr7": "*"
+    }
+}
