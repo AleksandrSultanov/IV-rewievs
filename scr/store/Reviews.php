@@ -42,7 +42,6 @@ class Reviews
                 $reviewInfo["content"]
             );
         }
-
         return $reviews;
     }
 
