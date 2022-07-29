@@ -3,7 +3,7 @@
         'name' => 'intervolga/reviews',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '40aa169d2d5babc3f3bb7feaf083e917e31f10bb',
+        'reference' => '9433bb0b34bc75255e111848b458b8f3286882ba',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'intervolga/reviews' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '40aa169d2d5babc3f3bb7feaf083e917e31f10bb',
+            'reference' => '9433bb0b34bc75255e111848b458b8f3286882ba',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

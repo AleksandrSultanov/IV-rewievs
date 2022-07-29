@@ -7,7 +7,7 @@ class Review {
     public $date_create;
     public $content;
 
-    function __construct($id, $date_create, $name_creator, $content) {
+    function __construct($id, $name_creator, $date_create, $content) {
         $this->id = $id;
         $this->name_creator = $name_creator;
         $this->date_create = $date_create;
