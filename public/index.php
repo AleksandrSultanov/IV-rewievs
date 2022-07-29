@@ -3,8 +3,9 @@
 use Intervolga\Reviews\api\Controller;
 use Intervolga\Reviews\store\Reviews;
 use Slim\Factory\AppFactory;
-require_once dirname(__DIR__, 1)."/config/config.php";
-include_once dirname(__DIR__, 1)."/vendor/autoload.php";
+
+require_once dirname(__DIR__)."/config/config.php";
+include_once dirname(__DIR__)."/vendor/autoload.php";
 
 $app = AppFactory::create();
 

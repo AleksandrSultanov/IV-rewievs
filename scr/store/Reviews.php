@@ -1,7 +1,6 @@
 <?php
 
 namespace Intervolga\Reviews\store;
-include_once dirname(__DIR__)."/vendor/autoload.php";
 
 use Intervolga\Reviews\Review;
 use SQLite3;
