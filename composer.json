@@ -9,6 +9,7 @@
     "require": {
         "slim/slim": "4.10.0",
         "slim/psr7": "*",
-        "ext-sqlite3": "*"
+        "ext-sqlite3": "*",
+        "ext-json": "*"
     }
 }
