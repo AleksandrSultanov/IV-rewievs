@@ -10,6 +10,9 @@
         "slim/slim": "4.10.0",
         "slim/psr7": "*",
         "ext-sqlite3": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "tuupola/slim-basic-auth": "^3.3",
+        "ext-simplexml": "*",
+        "ext-libxml": "*"
     }
 }

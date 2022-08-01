@@ -2,7 +2,6 @@
 
 namespace Intervolga\Reviews\store;
 
-use Intervolga\Reviews\api\Controller;
 use Intervolga\Reviews\Review;
 use SQLite3;
 
