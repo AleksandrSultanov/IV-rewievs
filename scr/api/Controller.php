@@ -8,7 +8,6 @@ use Slim\Factory\AppFactory;
 use Intervolga\reviews\store\Reviews;
 
 
-include_once dirname(__DIR__) . "/vendor/autoload.php";
 
 class Controller
 {
@@ -28,12 +27,11 @@ class Controller
 
     function show(Request $request, Response $response, array $args): Response
     {
-        $page = $request->getQueryParams();
-        $response->getBody()->write((string)($page));
+        //var_export($args['page']);
         $reviews = $this->reviewStore->find(($args['page']-1) * 20 + 1);
         foreach ($reviews as $review) {
             $reviewsToJson = $this->toJson($review);
-            $response->getBody()->write((string)$reviewsToJson);
+            $response->getBody()->write($reviewsToJson."\n");
         }
         return $response;
     }
