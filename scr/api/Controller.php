@@ -30,7 +30,7 @@ class Controller
         return $response;
     }
 
-    function addReview(Request $request, Response $response, array $args): int {
+    function addReview(Request $request, Response $response, array $args): Response {
         $allPostPutVars = $request->getParsedBody();
         foreach($allPostPutVars as $key => $param)
             $rev[$key] = $param;

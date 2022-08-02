@@ -6,6 +6,11 @@
             "Intervolga\\Reviews\\": "scr/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Intervolga\\Reviews\\": "test/"
+        }
+    },
     "require": {
         "slim/slim": "4.10.0",
         "slim/psr7": "*",
@@ -13,6 +18,10 @@
         "ext-json": "*",
         "tuupola/slim-basic-auth": "^3.3",
         "ext-simplexml": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "phpunit/phpunit": "^9"
+    },
+    "require-dev": {
+        "ext-curl": "*"
     }
 }
