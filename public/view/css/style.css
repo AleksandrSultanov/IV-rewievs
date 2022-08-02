@@ -2,8 +2,7 @@
     counter-reset: li;
     list-style: none;
     font-family: 'Roboto', sans-serif;
-    padding: 0;
-    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    padding: .7em;
 }
 .rounded a {
     position: relative;
@@ -22,7 +21,7 @@
     content: counter(li);
     counter-increment: li;
     position: absolute;
-    left: -1.3em;
+    left: -1em;
     top: 50%;
     margin-top: -1.3em;
     background: #4a90e2;
@@ -155,4 +154,39 @@ body {
 .ui-form p {
     margin: 0;
     padding-top: 10px;
+}
+
+a.button13 {
+    display: inline-block;
+    width: 15em;
+    font-size: 80%;
+    color: rgba(255,255,255,.9);
+    text-shadow: #2e7ebd 0 1px 2px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.1;
+    white-space: pre-line;
+    padding: .7em 0;
+
+    border-color: #4a90e2;
+    border-radius: 6px;
+    outline: none;
+    background: #4a90e2 ;
+    box-shadow: inset rgba(255,255,255,.5) 1px 1px;
+}
+a.button13:first-line{
+    font-size: 170%;
+    font-weight: 700;
+}
+a.button13:hover {
+    color: rgb(255,255,255);
+    background-color: #4a90e2;
+}
+.res{
+    position: relative;
+}
+a.button13:active {
+    color: #F77A52;
+    border-color: #F77A52;
+    box-shadow: none;
 }
