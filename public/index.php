@@ -23,8 +23,9 @@ try {$reviews = new SimpleXMLElement($xmlStr);
 } catch (Exception $e) {}
 
 $app->get('/api/feedbacks/{id}', array($controller, 'showOne'));
+$app->get('/api/feedbacks/', array($controller, 'showAjax'));
 $app->get('/api/feedbacks/page/{page}', array($controller, 'show'));
 $app->get('/api/feedbacks/delete/{id}', array($controller, 'deleteReview'));
-$app->post('/api/feedbacks/add', array($controller, 'addReview'));
-
+$app->post('/api/feedbacks/addAjax', array($controller, 'addReview'));
+$app->get('/api/feedbacks/add/', array($controller, 'addAjax'));
 $app->run();
