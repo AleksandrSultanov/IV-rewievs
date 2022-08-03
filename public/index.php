@@ -15,7 +15,7 @@ try {$reviews = new SimpleXMLElement($xmlStr);
     $login = $reviews->authentication->users->login;
     $password = $reviews->authentication->users->password;
     $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
-        "path" => ["/api/feedbacks/delete"],
+        "path" => ["/api/feedbacks/delete", "/api/feedbacks/addAjax"],
         "realm" => "Protected",
         "users" => [
             "$login" => "$password"
@@ -24,7 +24,7 @@ try {$reviews = new SimpleXMLElement($xmlStr);
 } catch (Exception $e) {}
 
 $app->get('/api/feedbacks/{id}', array($controller, 'showOne'));
-$app->get('/api/feedbacks/page/{page}', array($controller, 'show'));
+$app->get('/api/feedbacks/page/{page}', array($controller, 'showOnePage'));
 $app->get('/api/feedbacks/delete/{id}', array($controller, 'deleteReview'));
 $app->get('/api/feedbacks/', array($controller, 'showAjax'));
 $app->get('/api/feedbacks/add/', array($controller, 'addAjax'));

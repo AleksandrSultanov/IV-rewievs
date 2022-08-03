@@ -16,6 +16,8 @@ class Controller
         $this->reviewStore = $reviewStore;
     }
 
+    //Метод для добавления информации на страницу.
+    //Если база отдала верный ответ, то добавляем данные, иначе добавляем null.
     function showOne(Request $request, Response $response, array $args): Response {
         try {
             $review = $this->reviewStore->findById($args['id']);
@@ -35,7 +37,8 @@ class Controller
         return $response;
     }
 
-    function show(Request $request, Response $response, array $args): Response {
+    //Метод для добавления 20 отзывов на страницу. Аналогично методу выше
+    function showOnePage(Request $request, Response $response, array $args): Response {
         try {
             $reviews = $this->reviewStore->find(($args['page'] - 1) * 20);
             if($reviews) {
@@ -54,6 +57,7 @@ class Controller
         return $response;
     }
 
+    //Метод для подготовки данных для бд перед добавлением
     function addReview(Request $request, Response $response, array $args): Response {
         $allPostPutVars = $request->getParsedBody();
         foreach($allPostPutVars as $key => $param)
@@ -63,6 +67,7 @@ class Controller
         return $response;
     }
 
+    //Метод для удаления отзыва. Аналогично самому верхнему.
     function deleteReview(Request $request, Response $response, array $args): Response {
         try {
             $review = $this->reviewStore->deleteReview($args['id']);
@@ -113,6 +118,7 @@ class Controller
         }
     }
 
+
     function showAjax(Request $request, Response $response, array $args): Response {
         //Печатаем html
         $response->getBody()->write('
@@ -157,7 +163,7 @@ class Controller
                 <div class="form-row">
                     <textarea rows="5" cols="34" id="content"></textarea><label for="content">Введите отзыв: </label>
                 </div>
-                <p><input type="submit"  value="Добавить" onclick="addReview();"></p>
+                <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
                 <div id="result" class="res">
                
                 </div>
