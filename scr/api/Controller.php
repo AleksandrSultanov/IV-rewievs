@@ -64,9 +64,21 @@ class Controller
     }
 
     function deleteReview(Request $request, Response $response, array $args): Response {
-        $review = $this->reviewStore->deleteReview($args['id']);
-        $reviewToJson = $this->toJson($review);
-        $response->getBody()->write((string) $reviewToJson);
+        try {
+            $review = $this->reviewStore->deleteReview($args['id']);
+            if($review) {
+                $responseContent = $this->getSuccessResponse($this->toArray($review));
+            }
+            else {
+                $responseContent = $this->getSuccessResponse(null);
+            }
+        }
+        catch (StoreException $e) {
+            $responseContent = $this->getErrorResponse('Непредвиденная ошибка');
+        } catch (\Exception $e) {
+            $responseContent = $this->getErrorResponse('Не удалось получить ответ');
+        }
+        $response->getBody()->write( $responseContent);
         return $response;
     }
 
@@ -157,7 +169,8 @@ class Controller
         return $response;
     }
 
-    #[ArrayShape(['id' => "int", 'name_creator' => "string", 'date_create' => "string", 'content' => "string"])] function toArray(Review $review) {
+    #[ArrayShape(['id' => "int", 'name_creator' => "string", 'date_create' => "string", 'content' => "string"])]
+    function toArray(Review $review): array {
         return array( 'id' => $review->id,
             'name_creator' => $review->name_creator,
             'date_create' => $review->date_create,
@@ -165,8 +178,7 @@ class Controller
         );
     }
 
-    private function toArrayMany(array $reviews): array
-    {
+    private function toArrayMany(array $reviews): array {
         $array = [];
         foreach ($reviews as $review)
             $array[] = array( 'id' => $review->id,

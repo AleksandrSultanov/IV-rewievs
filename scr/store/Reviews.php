@@ -19,8 +19,8 @@ class Reviews
         $statement = $this->connection->prepare("SELECT * FROM reviews WHERE id = :id;");
         $statement->bindValue(':id', $id);
         $result = $statement->execute();
-        if($result) {
-            $reviewInfo = $result->fetchArray();
+        $reviewInfo = $result->fetchArray();
+        if($reviewInfo) {
             return new Review(
                 $reviewInfo["id"],
                 $reviewInfo["name_creator"],
@@ -32,7 +32,8 @@ class Reviews
     }
 
     /**
-     * @return Review[]
+     * @param int $page
+     * @return array|null
      */
     function find(int $page): ?array {
         // Запрашиваем определенное количество записей
@@ -57,12 +58,13 @@ class Reviews
     }
 
     function addReview (Review $review): bool {
-        $statement = $this->connection->prepare("INSERT INTO reviews (name_creator, date_create, content) VALUES (:name_creator,:date_create,:content);");
+        $statement = $this->connection->prepare("INSERT INTO reviews (name_creator, date_create, content) VALUES (:name_creator, :date_create, :content);");
         $statement->bindValue(':name_creator', $review->name_creator);
         $statement->bindValue(':date_create', $review->date_create);
         $statement->bindValue(':content', $review->content);
         $result = $statement->execute();
-        if ($result)
+        $reviewInfo = $result->fetchArray();
+        if($reviewInfo)
             return true;
         else return false;
     }
@@ -75,7 +77,7 @@ class Reviews
         $statement = $this->connection->prepare("DELETE FROM reviews WHERE id="."$id");
         $statement->bindValue(':id', $id);
         $result = $statement->execute();
-        if ($result)
+        if ($reviewInfo)
             return new Review(
                 $reviewInfo["id"],
                 $reviewInfo["name_creator"],
