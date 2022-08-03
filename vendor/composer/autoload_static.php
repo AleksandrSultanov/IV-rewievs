@@ -28,7 +28,7 @@ class ComposerStaticInit697b1e1e992df3102f7b3d36780025ce
         ),
         'I' => 
         array (
-            'Intervolga\\Rewievs\\' => 19,
+            'Intervolga\\Reviews\\' => 19,
         ),
         'F' => 
         array (
@@ -68,7 +68,7 @@ class ComposerStaticInit697b1e1e992df3102f7b3d36780025ce
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Intervolga\\Rewievs\\' => 
+        'Intervolga\\Reviews\\' => 
         array (
             0 => __DIR__ . '/../..' . '/scr',
         ),
