@@ -17,9 +17,13 @@ class Controller
     function showOne(Request $request, Response $response, array $args): Response
     {
         $review = $this->reviewStore->findById($args['id']);
-        $reviewToJson = $this->toJson($review);
-        $response->getBody()->write((string) $reviewToJson);
+        if($review) {
+            $reviewToJson = toJson($review);
+            $response->getBody()->write((string)$reviewToJson);
+        }
+        else getErrorResponse();
         return $response;
+        }
     }
 
     function show(Request $request, Response $response, array $args): Response
@@ -56,6 +60,18 @@ class Controller
         );
         return json_encode($review);
     }
+
+    function getSuccesResponse($result, $)
+    {
+
+    }
+
+    function getErrorResponse()
+    {
+
+    }
+
+
 
     function showAjax(Request $request, Response $response, array $args): Response
     {
@@ -113,5 +129,13 @@ class Controller
         <script src="/view/js/addReview.js"></script>
         </html>');
         return $response;
+    }
+    function toArray(Review $review)
+    {
+        return array( 'id' => $review->id,
+            'name_creator' => $review->name_creator,
+            'date_create' => $review->date_create,
+            'content' => $review->content
+        );
     }
 }
