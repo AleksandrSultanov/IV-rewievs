@@ -1,8 +1,8 @@
 <?php
 
 namespace Intervolga\Reviews\store;
-include_once dirname(__DIR__)."/vendor/autoload.php";
 
+use Intervolga\Reviews\api\Controller;
 use Intervolga\Reviews\Review;
 use SQLite3;
 
@@ -22,29 +22,52 @@ class Reviews
             $reviewInfo["date_create"],
             $reviewInfo["content"]
         );
-
     }
 
     /**
      * @return Review[]
      */
-    function find(int $id): array
+    function find(int $page): array
     {
         // Запрашиваем определенное количетсво записей
-        $result = $this->connection->query('SELECT * FROM `reviews` LIMIT "$id",20');
-        $reviewsInfo = $result->fetchArray();
-        $reviews = array();
-
+        $result = $this->connection->query("SELECT id, name_creator, date_create, content FROM reviews LIMIT 20 OFFSET "."$page-1");
         // Создаем массив Review
-        foreach ($reviewsInfo as $reviewInfo) {
-            $reviews[] = new Review(
+        $reviews = array();
+        $i = 0;
+        while ($reviewInfo = $result->fetchArray()) {
+
+                $reviews[$i] = new Review(
+                    $reviewInfo["id"],
+                    $reviewInfo["name_creator"],
+                    $reviewInfo["date_create"],
+                    $reviewInfo["content"]
+                );
+                $i++;
+
+        }
+
+        return $reviews;
+    }
+
+    function addReview (Review $review): int{
+        $result = $this->connection->query("INSERT INTO reviews VALUES ('$review->name_creator','$review->date_create','$review->content')");
+        $id = (new \SQLite3)->lastInsertRowID();
+        if ($result)
+            return $id;
+        else return false;
+    }
+
+    function deleteReview(int $id): Review|bool {
+        $result = $this->connection->query("SELECT * FROM reviews WHERE id="."$id");
+        $reviewInfo = $result->fetchArray();
+        $result = $this->connection->query("DELETE FROM reviews WHERE id="."$id");
+        if ($result)
+            return new Review(
                 $reviewInfo["id"],
                 $reviewInfo["name_creator"],
                 $reviewInfo["date_create"],
                 $reviewInfo["content"]
             );
-        }
-
-        return $reviews;
+        else return false;
     }
 }
