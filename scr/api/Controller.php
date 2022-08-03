@@ -2,6 +2,8 @@
 
 namespace Intervolga\Reviews\api;
 use Intervolga\Reviews\Review;
+use Intervolga\Reviews\store\StoreException;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Intervolga\reviews\store\Reviews;
@@ -10,27 +12,45 @@ class Controller
 {
     public Reviews $reviewStore;
 
-    function __construct(Reviews $reviewStore){
+    function __construct(Reviews $reviewStore) {
         $this->reviewStore = $reviewStore;
     }
 
-    function showOne(Request $request, Response $response, array $args): Response
-    {
-        $review = $this->reviewStore->findById($args['id']);
-        if($review) {
-            $reviewToJson = toJson($review);
-            $response->getBody()->write((string)$reviewToJson);
+    function showOne(Request $request, Response $response, array $args): Response {
+        try {
+            $review = $this->reviewStore->findById($args['id']);
+            if($review) {
+                $responseContent = $this->getSuccessResponse($this->toArray($review));
+            }
+            else {
+                $responseContent = $this->getSuccessResponse(null);
+            }
+        } catch (StoreException $e) {
+            $responseContent = $this->getErrorResponse('Непредвиденная ошибка');
+        } catch (\Exception $e) {
+            $responseContent = $this->getErrorResponse('Не удалось получить ответ');
         }
-        else getErrorResponse();
+
+        $response->getBody()->write($responseContent);
         return $response;
-        }
     }
 
-    function show(Request $request, Response $response, array $args): Response
-    {
-        $reviews = $this->reviewStore->find(($args['page']-1) * 20 + 1);
-        $reviewsToJson = json_encode($reviews);
-        $response->getBody()->write((string) $reviewsToJson);
+    function show(Request $request, Response $response, array $args): Response {
+        try {
+            $reviews = $this->reviewStore->find(($args['page'] - 1) * 20);
+            if($reviews) {
+                $responseContent = $this->getSuccessResponse($this->toArrayMany($reviews));
+            }
+            else {
+                $responseContent = $this->getSuccessResponse(null);
+            }
+        }
+        catch (StoreException $e) {
+            $responseContent = $this->getErrorResponse('Непредвиденная ошибка');
+        } catch (\Exception $e) {
+            $responseContent = $this->getErrorResponse('Не удалось получить ответ');
+        }
+        $response->getBody()->write( $responseContent);
         return $response;
     }
 
@@ -43,16 +63,14 @@ class Controller
         return $response;
     }
 
-    function deleteReview(Request $request, Response $response, array $args): Response
-    {
+    function deleteReview(Request $request, Response $response, array $args): Response {
         $review = $this->reviewStore->deleteReview($args['id']);
         $reviewToJson = $this->toJson($review);
         $response->getBody()->write((string) $reviewToJson);
         return $response;
     }
 
-    function toJson(Review $review): bool|string
-    {
+    function toJson(Review $review): bool|string {
         $review = array( 'id' => $review->id,
                          'name_creator' => $review->name_creator,
                          'date_create' => $review->date_create,
@@ -61,20 +79,29 @@ class Controller
         return json_encode($review);
     }
 
-    function getSuccesResponse($result, $)
-    {
-
+    function getSuccessResponse($result): string {
+        try {
+            return json_encode(array(
+                'result' => $result,
+                'status' => 'success'
+            ), JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new \Exception("could not get success response", 0, $e);
+        }
     }
 
-    function getErrorResponse()
-    {
-
+    function getErrorResponse(string $message): string {
+        try {
+            return json_encode(array(
+                'message' => $message,
+                'status' => 'error'
+            ), JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new \Exception("could not get error response", 0, $e);
+        }
     }
 
-
-
-    function showAjax(Request $request, Response $response, array $args): Response
-    {
+    function showAjax(Request $request, Response $response, array $args): Response {
         //Печатаем html
         $response->getBody()->write('
         <!DOCTYPE html>
@@ -99,8 +126,7 @@ class Controller
         return $response;
     }
 
-    function addAjax(Request $request, Response $response, array $args): Response
-    {
+    function addAjax(Request $request, Response $response, array $args): Response {
         //Печатаем html
         $response->getBody()->write('
         <!DOCTYPE HTML>
@@ -130,12 +156,24 @@ class Controller
         </html>');
         return $response;
     }
-    function toArray(Review $review)
-    {
+
+    #[ArrayShape(['id' => "int", 'name_creator' => "string", 'date_create' => "string", 'content' => "string"])] function toArray(Review $review) {
         return array( 'id' => $review->id,
             'name_creator' => $review->name_creator,
             'date_create' => $review->date_create,
             'content' => $review->content
         );
+    }
+
+    private function toArrayMany(array $reviews): array
+    {
+        $array = [];
+        foreach ($reviews as $review)
+            $array[] = array( 'id' => $review->id,
+                'name_creator' => $review->name_creator,
+                'date_create' => $review->date_create,
+                'content' => $review->content
+            );
+        return $array;
     }
 }

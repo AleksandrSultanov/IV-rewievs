@@ -20,11 +20,12 @@ function showReviews() {
     бывает 4 состояния 4-е состояние запроса - операция полностью завершена, пришел ответ от сервера*/
     if (request.readyState === 4 && request.status === 200) {
         const response = JSON.parse(request.response);
+        //console.log(response['result'][5]);
         let html = [];
-        for (let i = 0; i < response.length; i++) {
-            html.push(`<ol id="" class="rounded"><li><a id="name_creator" href="#">Имя : ${response[i]['name_creator']}</a></li>`);
-            html.push(`<li><a id="date_create" href="#">Дата создания : ${response[i]['date_create']}</a></li>`);
-            html.push(`<li><a id="content" href="#">Отзыв : ${response[i]['content']}</a></li></ol><hr>`);
+        for (let i = 0; i < response['result'].length; i++) {
+            html.push(`<ol id="" class="rounded"><li><a id="name_creator" href="#">Имя : ${response['result'][i]['name_creator']}</a></li>`);
+            html.push(`<li><a id="date_create" href="#">Дата создания : ${response['result'][i]['date_create']}</a></li>`);
+            html.push(`<li><a id="content" href="#">Отзыв : ${response['result'][i]['content']}</a></li></ol><hr>`);
             document.querySelector('#result').innerHTML = html.join('');
         }
     }});
