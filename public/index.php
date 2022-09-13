@@ -28,5 +28,5 @@ $app->get('/api/feedbacks/page/{page}', array($controller, 'showOnePage'));
 $app->get('/api/feedbacks/delete/{id}', array($controller, 'deleteReview'));
 $app->get('/api/feedbacks/', array($controller, 'showAjax'));
 $app->get('/api/feedbacks/add/', array($controller, 'addAjax'));
-$app->post('/api/feedbacks/addAjax', array($controller, 'addReview'));
+$app->post('/api/feedbacks/addAjax', array($controller, 'prepareBeforeAddReview'));
 $app->run();

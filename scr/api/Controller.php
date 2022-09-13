@@ -58,7 +58,7 @@ class Controller
     }
 
     //Метод для подготовки данных для бд перед добавлением
-    function addReview(Request $request, Response $response, array $args): Response {
+    function prepareBeforeAddReview(Request $request, Response $response, array $args): Response {
         $allPostPutVars = $request->getParsedBody();
         foreach($allPostPutVars as $key => $param)
             $rev[$key] = $param;
@@ -121,57 +121,13 @@ class Controller
 
     function showAjax(Request $request, Response $response, array $args): Response {
         //Печатаем html
-        $response->getBody()->write('
-        <!DOCTYPE html>
-        <html lang="ru">
-        <head>
-            <meta charset="UTF-8">
-            <title>Отзывы</title>
-            <link rel="stylesheet" href="/view/css/style.css">
-        </head>
-        <body>
-            <a href="#" class="button13" onclick="showReviews();">Обновить отзывы</a>
-            <div id="result">
-                <hr>
-                        <ol id="" class="rounded">
-                            <li><a id="name_creator" href="#">Имя автора</a></li>
-                        </ol>
-                <hr>
-            </div>
-        </body>
-        <script src="/view/js/showReviews.js"></script>
-        </html>');
+        $response->getBody()->write(showReviews);
         return $response;
     }
 
     function addAjax(Request $request, Response $response, array $args): Response {
         //Печатаем html
-        $response->getBody()->write('
-        <!DOCTYPE HTML>
-        <html lang="ru">
-        <head>
-            <meta charset="utf-8">
-            <title>Добавление отзыва</title>
-            <link rel="stylesheet" href="/view/css/style.css">
-        </head>
-        <body>
-            <form name="add" action="" class="ui-form">
-                <h3>Добавить отзыв</h3>
-                <div class="form-row">
-                    <input type="text" id="name_creator"><label for="name_creator">Введите имя: </label>
-                </div>
-                <div class="form-row">
-                    <textarea rows="5" cols="34" id="content"></textarea><label for="content">Введите отзыв: </label>
-                </div>
-                <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
-                <div id="result" class="res">
-               
-                </div>
-            </form>
-            
-        </body>
-        <script src="/view/js/addReview.js"></script>
-        </html>');
+        $response->getBody()->write(addReviews);
         return $response;
     }
 

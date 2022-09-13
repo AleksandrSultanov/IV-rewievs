@@ -16,7 +16,7 @@ class Reviews
      * @throws StoreException
      */
     //Метод для поиска отзыва по id. Подготавливаем, выполняем запрос.
-    // Данные переводим в массив, а после в объект Review
+    // Данные преобразуем в массив, а после в объект Review
     function findById(int $id): ?Review {
         $statement = $this->connection->prepare("SELECT * FROM reviews WHERE id = :id;");
         $statement->bindValue(':id', $id);
