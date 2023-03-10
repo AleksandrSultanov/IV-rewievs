@@ -1,32 +1,29 @@
 <?php
 
+
 use Intervolga\Reviews\api\Controller;
 use Intervolga\Reviews\store\Reviews;
 use Slim\Factory\AppFactory;
 
-require_once dirname(__DIR__)."/config/config.php";
-include_once dirname(__DIR__)."/vendor/autoload.php";
+
+require_once dirname(__DIR__) . "/scr/api/AuthClass.php";
+include_once dirname(__DIR__) . "/vendor/autoload.php";
 
 $app = AppFactory::create();
 
-$controller = new Controller(new Reviews(new SQLite3('/home/intervolga/PhpstormProjects/reviews/IV')));
+$controller = new Controller(new Reviews(new SQLite3('/home/aleksandr/PhpstormProjects/Reviews/IV')));
 
-try {$reviews = new SimpleXMLElement($xmlStr);
-    $login = $reviews->authentication->users->login;
-    $password = $reviews->authentication->users->password;
-    $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
-        "path" => ["/api/feedbacks/delete", "/api/feedbacks/addAjax"],
-        "realm" => "Protected",
-        "users" => [
-            "$login" => "$password"
-        ]
-    ]));
-} catch (Exception $e) {}
+$auth = new AuthClass();
 
-$app->get('/api/feedbacks/{id}', array($controller, 'showOne'));
-$app->get('/api/feedbacks/page/{page}', array($controller, 'showOnePage'));
-$app->get('/api/feedbacks/delete/{id}', array($controller, 'deleteReview'));
 $app->get('/api/feedbacks/', array($controller, 'showAjax'));
+$app->get('/api/feedbacks/page/{page}', array($controller, 'showOnePage'));
+$app->get('/api/out/', array($controller, 'out'));
+$app->get('/api/feedbacks/delete/{id}', array($controller, 'deleteReview'));
 $app->get('/api/feedbacks/add/', array($controller, 'addAjax'));
+$app->get('/api/feedbacks/update/{id}', array($controller, 'updateAjax'));
 $app->post('/api/feedbacks/addAjax', array($controller, 'addReview'));
+$app->post('/api/feedbacks/updateAjax/{id}', array($controller, 'updateReview'));
+$app->post('/api/', array($controller, 'showAuth'));
+$app->get('/api/', array($controller, 'showAuth'));
+
 $app->run();

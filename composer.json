@@ -19,7 +19,8 @@
         "tuupola/slim-basic-auth": "^3.3",
         "ext-simplexml": "*",
         "ext-libxml": "*",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^9",
+        "ext-xdebug": "*"
     },
     "require-dev": {
         "ext-curl": "*"
