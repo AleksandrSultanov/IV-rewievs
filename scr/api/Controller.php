@@ -22,7 +22,6 @@ class Controller {
 
     //Метод для добавления информации на страницу.
     //Если база отдала верный ответ, то добавляем данные, иначе добавляем null.
-
     function out(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
 
@@ -56,31 +55,40 @@ class Controller {
     //Метод для подготовки данных для бд перед добавлением
     function addReview(Request $request, Response $response, array $args): Response {
         $allPostPutVars = $request->getParsedBody();
+
         foreach ($allPostPutVars as $key => $param) {
             $rev[$key] = $param;
         }
+
         $review = new Review(0, $rev["name_creator"], date("Y-m-d H:i:s"), $rev["content"]);
         $this->reviewStore->addReview($review);
+
         return $response;
     }
 
     function updateReview(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
+
         if ($auth->isAuth()) {
             $idReview = $args["id"];
             $allPostPutVars = $request->getParsedBody();
+
             foreach ($allPostPutVars as $key => $param) {
                 $rev[$key] = $param;
             }
+
             $review = new Review((int) $idReview, $rev["name_creator"], date("Y-m-d H:i:s"), $rev["content"]);
             $result = $this->reviewStore->updateReview($review);
+
             if (!$result) {
                 $responseContent = $this->getErrorResponse('Не удалось обновить отзыв.');
             }
+
             $response->getBody()->write($responseContent);
         } else {
             $response->getBody()->write(StaticContent::getNeedAuthHtml());
         }
+
         return $response;
     }
 
@@ -102,17 +110,8 @@ class Controller {
         } else {
             $response->getBody()->write(StaticContent::getNeedAuthHtml());
         }
-        return $response;
-    }
 
-    function toJson(Review $review): bool|string {
-        $review = array(
-                'id'           => $review->id,
-                'name_creator' => $review->name_creator,
-                'date_create'  => $review->date_create,
-                'content'      => $review->content,
-        );
-        return json_encode($review);
+        return $response;
     }
 
     function getSuccessResponse($result): string {
@@ -138,41 +137,44 @@ class Controller {
     }
 
     function showAjax(Request $request, Response $response, array $args): Response {
-        //Печатаем html
         $auth = new AuthClass();
+
         if ($auth->isAuth()) {
             $response->getBody()->write(StaticContent::getListReviewsHtml());
         } else {
             $response->getBody()->write(StaticContent::getNeedAuthHtml());
         }
+
         return $response;
     }
 
     function addAjax(Request $request, Response $response, array $args): Response {
-        //Печатаем html
         $response->getBody()->write(StaticContent::getAddHtml());
         return $response;
     }
 
     function updateAjax(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
+
         if ($auth->isAuth()) {
             $idReview = $args["id"];
             $reviews = new Reviews(new SQLite3('/home/aleksandr/PhpstormProjects/Reviews/IV'));
             $review = $reviews->findById($idReview);
-            //Печатаем html
+
             $request->getQueryParams();
             $response->getBody()->write(StaticContent::getUpdateHtml($review->id, $review->name_creator,
                     $review->content));
         } else {
             $response->getBody()->write(StaticContent::getNeedAuthHtml());
         }
+
         return $response;
     }
 
     function showAuth(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
         $formValues = $request->getParsedBody();
+
         if (isset($formValues["login"]) && isset($formValues["password"])) { //Если логин и пароль были отправлены
             if (!$auth->auth($formValues["login"], $formValues["password"])) { //Если логин и пароль введен не правильно
                 $response->getBody()->write(StaticContent::getWrongDataWithAuthFrom());
@@ -185,6 +187,7 @@ class Controller {
         } else {
             $response->getBody()->write(StaticContent::getLKHtml($auth->getLogin()));
         }
+
         return $response;
     }
 
