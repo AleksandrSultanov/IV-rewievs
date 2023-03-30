@@ -41,7 +41,7 @@ class Reviews {
      */
     function find(int $page): ?array {
         // Запрашиваем определенное количество записей
-        $statement = $this->connection->prepare("SELECT * FROM reviews LIMIT :page,20");
+        $statement = $this->connection->prepare("SELECT * FROM reviews LIMIT :page,30");
         $statement->bindValue(':page', $page);
         $result = $statement->execute();
 

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'intervolga/reviews',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '2efd8ccc65fd8e3bd4304e5ec520fd587479aea2',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'e2711514b8bc45e748d1c91964b86728fa00361a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'intervolga/reviews' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '2efd8ccc65fd8e3bd4304e5ec520fd587479aea2',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'e2711514b8bc45e748d1c91964b86728fa00361a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -157,8 +157,8 @@
         'psr/http-factory-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '^1.0',
-                1 => '1.0',
+                0 => '1.0',
+                1 => '^1.0',
             ),
         ),
         'psr/http-message' => array(

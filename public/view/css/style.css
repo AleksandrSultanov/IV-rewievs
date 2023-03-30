@@ -180,7 +180,7 @@ body {
 a.button13 {
     display: inline-block;
     width: 18em;
-    font-size: 80%;
+    font-size: 60%;
     color: rgba(255, 255, 255, .9);
     text-shadow: #2e7ebd 0 1px 2px;
     text-decoration: none;
@@ -197,9 +197,30 @@ a.button13 {
 }
 
 a.button15 {
-    position: fixed;
+    position: absolute;
     display: inline-block;
     right: 1%;
+    width: 15em;
+    font-size: 100%;
+    color: rgba(255, 255, 255, .9);
+    text-shadow: #2e7ebd 0 1px 2px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.2;
+    font-weight: bolder;
+    white-space: pre-line;
+    padding: .7em 0;
+
+    border-color: #4a90e2;
+    border-radius: 16px;
+    outline: none;
+    background: #4a90e2;
+    box-shadow: inset rgba(255, 255, 255, .5) 1px 1px;
+}
+
+
+a.button16 {
+    display: inline-block;
     width: 15em;
     font-size: 100%;
     color: rgba(255, 255, 255, .9);
@@ -272,4 +293,8 @@ a.button13:active {
     color: #F77A52;
     border-color: #F77A52;
     box-shadow: none;
+}
+
+.current {
+    background-color: #F76A52;
 }

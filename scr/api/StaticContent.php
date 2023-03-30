@@ -4,28 +4,23 @@
 namespace Intervolga\Reviews\api;
 
 
+use AuthClass;
+
 class StaticContent {
     public static function getNeedAuthHtml(): string {
         return self::getHeader('Отзывы') . '
-                <a href="/api/feedbacks/add/" class="button13" id="update">Добавить отзыв</a><hr>
                    <div>
                        Для просмотра этой этой страницы вам нужно 
-                       <a href="/api/">авторизоваться</a> 
+                       <a href="/api/login/">авторизоваться</a> 
                    </div>' .
                 self::getFooter();
     }
 
     public static function getListReviewsHtml(): string {
         return self::getHeader('Отзывы') . '
-                <a href="/api/feedbacks/add/" class="button13" id="update">Добавить отзыв</a>
-                <a href="/api/" class="button15" >Личный кабинет</a><hr>
                 <div id="result">
-                    <hr>
-                            <ol id="" class="rounded">
-                                <li><a id="name_creator" href="#">Имя автора</a></li>
-                            </ol>
-                    <hr>
-                </div>' .
+                </div>' . '
+                <div id="pagenavigation">' .
                 self::getFooter(array('/view/js/showReviews.js', '/view/js/deleteReview.js'));
     }
 
@@ -39,9 +34,9 @@ class StaticContent {
                     <div class="form-row">
                         <textarea rows="5" cols="34" id="content"></textarea><label for="content">Введите отзыв: </label>
                     </div>
-                    <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
-                    <div id="result" class="res">
-                   
+                        <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
+                    </div>
+                    <div id="result">
                     </div>
                 </form>' .
                 self::getFooter(array('/view/js/addReview.js'));
@@ -57,9 +52,10 @@ class StaticContent {
                     <div class="form-row">
                         <textarea rows="5" cols="34" id="content">' . $content . '</textarea><label for="content">Отзыв: </label>
                     </div>
-                    <p><input type="button"  value="Обновить" onkeypress="return event.keyCode != 13;" onclick="updateReview('
+                        <p><input type="button"  value="Обновить" onkeypress="return event.keyCode != 13;" onclick="updateReview('
                 . $id . ');"></p>
-                    <div id="result" class="res">
+                    </div>
+                    <div id="result">
                     </div>
                 </form>' .
                 self::getFooter(array('/view/js/updateReview.js'));
@@ -67,8 +63,6 @@ class StaticContent {
 
     public static function getAuthFormHtml(): string {
         return self::getHeader('Авторизация') . '
-                <a href="/api/feedbacks/add/" class="button13" id="update">Добавить отзыв</a>
-                <hr>
                 <form method="post" class="ui-form" action="">
                    <div class="form-row">
                        Логин:
@@ -97,7 +91,6 @@ class StaticContent {
 
     public static function getWrongDataWithAuthFrom(): string {
         return self::getHeader('Авторизация') . '
-                <a href="/api/feedbacks/add/" class="button13" id="update">Добавить отзыв</a>
                 <hr>
                 <form method="post" class="ui-form" action="">
                     <div class="form-row">
@@ -117,7 +110,8 @@ class StaticContent {
     }
 
     public static function getHeader($title): string {
-        return '<!DOCTYPE HTML>
+        $auth = new AuthClass();
+        $html = '<!DOCTYPE HTML>
                 <html lang="ru">
                 <head>
                     <meta charset="utf-8">
@@ -126,15 +120,25 @@ class StaticContent {
                     <link rel="icon" href="/view/favicon.ico">
                 </head>
                 <body>';
+        if ($auth->isAuth()) {
+            $html .= '<a href="/api/" class="button16" id="add">Добавить отзыв</a>
+                        <a href="/api/feedbacks/page/1/" class="button16" >Администрирование</a>
+                        <a href="/api/out/" class="button15" id="add">Выход</a><hr>';
+        } else {
+            $html .= '<a href="/api/" class="button16" id="add">Добавить отзыв</a>
+                        <a href="/api/login/" class="button15" >Войти</a><hr>';
+        }
+
+        return $html;
     }
 
     public static function getFooter($pathsToScript = array()): string {
         $script = '';
+
         foreach ($pathsToScript as $pathToScript) {
             $script .= '<script src="' . $pathToScript . '"></script>';
         }
-        return '</body>'
-                . $script . '
-                </html>';
+
+        return '</body>' . $script . '</html>';
     }
 }

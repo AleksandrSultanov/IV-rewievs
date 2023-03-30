@@ -1,6 +1,6 @@
 function deleteReview(id) {
     if (confirm('Вы действительно хотите удалить отзыв?')) {
-        let requestURL = "/api/feedbacks/delete/" + id;
+        let requestURL = "/api/feedbacks/delete/" + id + '/';
 
         const xhr = new XMLHttpRequest();
         xhr.open('GET', requestURL);
@@ -13,7 +13,7 @@ function deleteReview(id) {
         }
         xhr.send();
         setTimeout(() => {
-            location.href = '/api/feedbacks/';
-        }, 100);
+            location.href = '/api/feedbacks/page/1/';
+        }, 1000);
     }
 }

@@ -19,9 +19,9 @@ function addReview() {
         }
         xhr.send(formData);
         elResult.textContent = 'Отзыв добавлен!';
-        setTimeout(() => {
-            location.href = '/api/feedbacks/';
-        }, 100);
+        /* setTimeout(() => {
+             location.href = '/api/feedbacks/page/1/';
+         }, 300);*/
     } else {
         alert('Введите данные')
     }

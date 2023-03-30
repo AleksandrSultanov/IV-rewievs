@@ -23,8 +23,8 @@ function updateReview(id) {
         xhr.send(formData);
         elResult.textContent = 'Отзыв обновлен!';
         setTimeout(() => {
-            location.href = '/api/feedbacks/';
-        }, 100);
+            location.href = '/api/feedbacks/page/1/';
+        }, 300);
     } else {
         alert('Введите данные')
     }

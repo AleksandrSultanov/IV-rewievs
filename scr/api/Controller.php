@@ -39,7 +39,7 @@ class Controller {
     //Метод для добавления 20 отзывов на страницу. Аналогично методу выше
     function showOnePage(Request $request, Response $response, array $args): Response {
         try {
-            $reviews = $this->reviewStore->find(($args['page'] - 1) * 20);
+            $reviews = $this->reviewStore->find(($args['page'] - 1) * 30);
             if ($reviews) {
                 $responseContent = $this->getSuccessResponse($this->toArrayMany($reviews));
             } else {
@@ -60,7 +60,8 @@ class Controller {
             $rev[$key] = $param;
         }
 
-        $review = new Review(0, $rev["name_creator"], date("Y-m-d H:i:s"), $rev["content"]);
+        $review = new Review(0, htmlentities($rev["name_creator"]), date("Y-m-d H:i:s"),
+                htmlentities($rev["content"]));
         $this->reviewStore->addReview($review);
 
         return $response;
@@ -77,7 +78,8 @@ class Controller {
                 $rev[$key] = $param;
             }
 
-            $review = new Review((int) $idReview, $rev["name_creator"], date("Y-m-d H:i:s"), $rev["content"]);
+            $review = new Review((int) $idReview, htmlentities($rev["name_creator"]), date("Y-m-d H:i:s"),
+                    htmlentities($rev["content"]));
             $result = $this->reviewStore->updateReview($review);
 
             if (!$result) {
@@ -92,7 +94,7 @@ class Controller {
         return $response;
     }
 
-    //Метод для удаления отзыва. Аналогично самому верхнему.
+    //Метод для удаления отзыва.
     function deleteReview(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
 
@@ -114,6 +116,9 @@ class Controller {
         return $response;
     }
 
+    /**
+     * @throws Exception
+     */
     function getSuccessResponse($result): string {
         try {
             return json_encode(array(
@@ -125,6 +130,9 @@ class Controller {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     function getErrorResponse(string $message): string {
         try {
             return json_encode(array(
@@ -176,7 +184,9 @@ class Controller {
         $formValues = $request->getParsedBody();
 
         if (isset($formValues["login"]) && isset($formValues["password"])) { //Если логин и пароль были отправлены
-            if (!$auth->auth($formValues["login"], $formValues["password"])) { //Если логин и пароль введен не правильно
+            if (
+                    !$auth->auth(htmlentities($formValues["login"]), htmlentities($formValues["password"]))
+            ) { //Если логин и пароль введен не правильно
                 $response->getBody()->write(StaticContent::getWrongDataWithAuthFrom());
                 return $response;
             }
