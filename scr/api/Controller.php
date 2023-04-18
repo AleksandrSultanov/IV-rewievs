@@ -20,7 +20,7 @@ class Controller {
         $this->reviewStore = $reviewStore;
     }
 
-    //Метод для добавления информации на страницу.
+    //Метод для вывода информации на страницу.
     //Если база отдала верный ответ, то добавляем данные, иначе добавляем null.
     function out(Request $request, Response $response, array $args): Response {
         $auth = new AuthClass();
@@ -36,7 +36,7 @@ class Controller {
         return $response;
     }
 
-    //Метод для добавления 20 отзывов на страницу. Аналогично методу выше
+    //Метод для вывода 30 отзывов на страницу. Аналогично методу выше
     function showOnePage(Request $request, Response $response, array $args): Response {
         try {
             $reviews = $this->reviewStore->find(($args['page'] - 1) * 30);
@@ -60,8 +60,8 @@ class Controller {
             $rev[$key] = $param;
         }
 
-        $review = new Review(0, htmlentities($rev["name_creator"]), date("Y-m-d H:i:s"),
-                htmlentities($rev["content"]));
+        $review = new Review(0, htmlentities($rev["name_creator"]), date("Y-m-d H:i:s"), '',
+                htmlentities($rev["content"]), htmlentities($rev["rating"]));
         $this->reviewStore->addReview($review);
 
         return $response;
@@ -78,8 +78,8 @@ class Controller {
                 $rev[$key] = $param;
             }
 
-            $review = new Review((int) $idReview, htmlentities($rev["name_creator"]), date("Y-m-d H:i:s"),
-                    htmlentities($rev["content"]));
+            $review = new Review((int) $idReview, htmlentities($rev["name_creator"]), '', date("Y-m-d H:i:s"),
+                    htmlentities($rev["content"]), htmlentities($rev["rating"]));
             $result = $this->reviewStore->updateReview($review);
 
             if (!$result) {
@@ -171,7 +171,7 @@ class Controller {
 
             $request->getQueryParams();
             $response->getBody()->write(StaticContent::getUpdateHtml($review->id, $review->name_creator,
-                    $review->content));
+                    $review->content, $review->rating));
         } else {
             $response->getBody()->write(StaticContent::getNeedAuthHtml());
         }
@@ -208,7 +208,9 @@ class Controller {
                     'id'           => $review->id,
                     'name_creator' => $review->name_creator,
                     'date_create'  => $review->date_create,
+                    'date_change'  => $review->date_change,
                     'content'      => $review->content,
+                    'rating'       => $review->rating,
             );
         }
         return $array;

@@ -27,35 +27,76 @@ class StaticContent {
     public static function getAddHtml(): string {
         return self::getHeader('Добавление отзыва') . '
                 <form name="add" action="" class="ui-form">
+                
                     <h3>Добавить отзыв</h3>
+                    
                     <div class="form-row">
-                        <input type="text" id="name_creator"><label for="name_creator">Введите имя: </label>
+                        <input type="text" id="name_creator">
+                        <label for="name_creator">Введите имя: </label>
                     </div>
+                    
                     <div class="form-row">
-                        <textarea rows="5" cols="34" id="content"></textarea><label for="content">Введите отзыв: </label>
+                        <textarea rows="5" cols="34" id="content"></textarea>
+                        <label for="content">Введите отзыв: </label>
                     </div>
-                        <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
-                    </div>
+                    
+                    <fieldset>
+                        <label>Поставьте оценку от 1 до 5:</label>
+                            <div class="form-row">
+                                <select id="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                    </fieldset>
+                    
+                    <p><input type="button"  value="Добавить" onkeypress="return event.keyCode != 13;" onclick="addReview();"></p>
+                    
                     <div id="result">
                     </div>
+                    
                 </form>' .
                 self::getFooter(array('/view/js/addReview.js'));
     }
 
-    public static function getUpdateHtml($id, $name_creator, $content): string {
+    public static function getUpdateHtml($id, $name_creator, $content, $rating): string {
         return self::getHeader('Обновление отзыва') . '
                 <form name="update" action="" class="ui-form">
                     <h3>Обновление отзыва</h3>
+                    
                     <div class="form-row">
-                        <input type="text" id="name_creator" value="' . $name_creator . '"><label for="name_creator">Имя: </label>
+                        <input type="text" id="name_creator" value="' . $name_creator . '">
+                        <label for="name_creator">Имя: </label>
                     </div>
+                    
                     <div class="form-row">
-                        <textarea rows="5" cols="34" id="content">' . $content . '</textarea><label for="content">Отзыв: </label>
+                        <textarea rows="5" cols="34" id="content">' . $content . '</textarea>
+                        <label for="content">Отзыв: </label>
                     </div>
-                        <p><input type="button"  value="Обновить" onkeypress="return event.keyCode != 13;" onclick="updateReview('
-                . $id . ');"></p>
+                    
+                    <fieldset>
+                        <label>Поставьте оценку от 1 до 5:</label>
+                            <div class="form-row">
+                                <select id="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                    </fieldset>
+                    
+                    <p>
+                        <input type="button"  value="Обновить" onkeypress="return event.keyCode != 13;" onclick="updateReview('
+                . $id . ');">
+                    </p>
+                    
                     </div>
-                    <div id="result">
+                        <div id="result">
                     </div>
                 </form>' .
                 self::getFooter(array('/view/js/updateReview.js'));

@@ -29,7 +29,9 @@ function showReviews() {
                             <a href="" onClick='deleteReview(${response['result'][i]['id']})' class="button1" id="delete">Удалить отзыв</a>
                             <ol class="rounded"><li><a id="name_creator" href="#">Имя : ${response['result'][i]['name_creator']}</a></li>
                             <li><a id="date_create" href="#">Дата создания : ${response['result'][i]['date_create']}</a></li>
-                            <li><a id="content" href="#">Отзыв : ${response['result'][i]['content']}</a></li></ol><hr>`);
+                            <li><a id="date_change" href="#">Дата изменения : ${response['result'][i]['date_change']}</a></li>
+                            <li><a id="content" href="#">Отзыв : ${response['result'][i]['content']}</a></li>
+                            <li><a id="rating" href="#">Оценка : ${response['result'][i]['rating']}</a></li></ol><hr>`);
                     document.querySelector('#result').innerHTML = html.join('');
                 }
             }

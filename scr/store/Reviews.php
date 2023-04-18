@@ -27,7 +27,9 @@ class Reviews {
                     $reviewInfo["id"],
                     $reviewInfo["name_creator"],
                     $reviewInfo["date_create"],
-                    $reviewInfo["content"]
+                    $reviewInfo["date_change"] ?? '',
+                    $reviewInfo["content"],
+                    $reviewInfo["rating"]
             );
         }
         return null;
@@ -53,7 +55,9 @@ class Reviews {
                         $reviewInfo["id"],
                         $reviewInfo["name_creator"],
                         $reviewInfo["date_create"],
-                        $reviewInfo["content"]
+                        $reviewInfo["date_change"] ?? '',
+                        $reviewInfo["content"],
+                        $reviewInfo["rating"]
                 );
             }
             return $reviews;
@@ -64,12 +68,14 @@ class Reviews {
     //Метод для добавления нового отзыва
     function addReview(Review $review): bool {
         $statement = $this->connection->prepare(
-                "INSERT INTO reviews (name_creator, date_create, content) VALUES (:name_creator, :date_create, :content);"
+                "INSERT INTO reviews (name_creator, date_create, content, rating) 
+                        VALUES (:name_creator, :date_create, :content, :rating);"
         );
 
         $statement->bindValue(':name_creator', $review->name_creator);
         $statement->bindValue(':date_create', $review->date_create);
         $statement->bindValue(':content', $review->content);
+        $statement->bindValue(':rating', $review->rating);
 
         $result = $statement->execute();
 
@@ -97,7 +103,9 @@ class Reviews {
                         $reviewInfo["id"],
                         $reviewInfo["name_creator"],
                         $reviewInfo["date_create"],
-                        $reviewInfo["content"]
+                        $reviewInfo["date_change"] ?? '',
+                        $reviewInfo["content"],
+                        $reviewInfo["rating"]
                 );
             }
         }
@@ -106,13 +114,16 @@ class Reviews {
 
     function updateReview(Review $review): bool {
         $statement = $this->connection->prepare(
-                "UPDATE reviews SET name_creator=:name_creator, date_create=:date_create, content=:content WHERE id=:id;"
+                "UPDATE reviews 
+                        SET name_creator=:name_creator, date_change=:date_change, content=:content, rating=:rating 
+                        WHERE id=:id;"
         );
 
         $statement->bindValue(':name_creator', $review->name_creator);
-        $statement->bindValue(':date_create', $review->date_create);
+        $statement->bindValue(':date_change', $review->date_change);
         $statement->bindValue(':content', $review->content);
         $statement->bindValue(':id', $review->id);
+        $statement->bindValue(':rating', $review->rating);
 
         $result = $statement->execute();
         if ($result)
